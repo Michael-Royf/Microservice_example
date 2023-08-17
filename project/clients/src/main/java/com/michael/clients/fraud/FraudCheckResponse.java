@@ -1,4 +1,4 @@
-package com.michael.clients;
+package com.michael.clients.fraud;
 
 import lombok.*;
 

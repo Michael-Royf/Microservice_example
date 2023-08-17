@@ -1,7 +1,9 @@
 package com.michael.customer.service.impl;
 
-import com.michael.clients.FraudCheckResponse;
-import com.michael.clients.FraudClients;
+import com.michael.clients.fraud.FraudCheckResponse;
+import com.michael.clients.fraud.FraudClient;
+import com.michael.clients.notification.NotificationClient;
+import com.michael.clients.notification.NotificationRequest;
 import com.michael.customer.entity.Customer;
 import com.michael.customer.payload.request.CustomerRequest;
 import com.michael.customer.payload.response.CustomerResponse;
@@ -23,7 +25,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
     private final ModelMapper mapper;
-    private final FraudClients fraudClients;
+    private final FraudClient fraudClients;
+    private final NotificationClient notificationClient;
     //private final RestTemplate restTemplate;
 
 
@@ -52,6 +55,14 @@ public class CustomerServiceImpl implements CustomerService {
         if (fraudCheckResponse.getIsFraudster()) {
             throw new IllegalStateException("Fraudster");
         }
+
+        NotificationRequest notificationRequest = NotificationRequest.builder()
+                .toCustomerId(customer.getId())
+                .toCustomerEmail(customer.getEmail())
+                .message(String.format("Hi %s, welcome to Michael WebSite...",
+                        customer.getFirstName()))
+                .build();
+        notificationClient.sendNotification(notificationRequest);
         return mapper.map(customer, CustomerResponse.class);
     }
 
