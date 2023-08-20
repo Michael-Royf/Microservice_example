@@ -1,0 +1,50 @@
+
+zipkin - http://localhost:9411/
+pgadmin-  http://localhost:5050
+
+
+
+https://mohosinmiah1610.medium.com/how-to-implement-zipkin-in-spring-boot-3-683e9d61a94c
+
+https://spring.io/projects/spring-cloud-sleuth
+https://github.com/micrometer-metrics/tracing/wiki/Spring-Cloud-Sleuth-3.1-Migration-Guide
+
+
+zipkin
+https://zipkin.io/
+
+
+for zipkin dependencies
+ <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-brave</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.reporter2</groupId>
+            <artifactId>zipkin-reporter-brave</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-micrometer</artifactId>
+        </dependency>
+
+
+application.yml:
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+spring:
+   zipkin:
+      base-url: http://localhost:9411
+    sleuth:
+      sampler:
+        probability: 1.0
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"

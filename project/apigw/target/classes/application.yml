@@ -1,25 +1,20 @@
 server:
-  port: 8085
+  port: 8090
 spring:
   application:
-    name: notification
+    name: api-gateway
   zipkin:
     base-url: http://localhost:9411
   sleuth:
     sampler:
       probability: 1.0
-  datasource:
-    password: password
-    url: jdbc:postgresql://localhost:5432/notification
-    username: michael
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
-    show-sql: true
+  cloud:
+    gateway:
+      routes:
+        - id: customer
+          uri: lb://CUSTOMER
+          predicates:
+            - Path=/api/v1/customer/**
 
 eureka:
   client:
@@ -36,3 +31,7 @@ management:
   tracing:
     sampling:
       probability: 1.0
+
+
+
+
