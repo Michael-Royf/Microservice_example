@@ -20,6 +20,8 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
+  rabbitmq:
+    addresses: localhost:5672
 
 eureka:
   client:
@@ -32,7 +34,15 @@ logging:
   pattern:
     level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
 
-#management:
-#  tracing:
-#    sampling:
-#      probability: 1.0
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+rabbitmq:
+  exchanges:
+    internal: internal.exchange
+  queues:
+    notification: notification.queue
+  routing-keys:
+    internal-notification: internal.notification.routing-key
+

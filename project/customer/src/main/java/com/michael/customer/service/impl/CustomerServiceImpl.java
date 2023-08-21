@@ -1,5 +1,6 @@
 package com.michael.customer.service.impl;
 
+import com.michael.amqp.RabbitMQMessageProducer;
 import com.michael.clients.fraud.FraudCheckResponse;
 import com.michael.clients.fraud.FraudClient;
 import com.michael.clients.notification.NotificationClient;
@@ -26,8 +27,8 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
     private final ModelMapper mapper;
     private final FraudClient fraudClients;
-    private final NotificationClient notificationClient;
-    //private final RestTemplate restTemplate;
+  //  private final NotificationClient notificationClient;
+    private final RabbitMQMessageProducer producer;
 
 
     @Override
@@ -62,7 +63,12 @@ public class CustomerServiceImpl implements CustomerService {
                 .message(String.format("Hi %s, welcome to Michael WebSite...",
                         customer.getFirstName()))
                 .build();
-        notificationClient.sendNotification(notificationRequest);
+
+        // notificationClient.sendNotification(notificationRequest);
+
+        producer.publish(notificationRequest,
+                "internal.exchange",
+                "internal.notification.routing-key");
         return mapper.map(customer, CustomerResponse.class);
     }
 

@@ -5,7 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 
-@SpringBootApplication
+@SpringBootApplication(
+        scanBasePackages = {
+                "com.michael.customer",
+                "com.michael.amqp"
+        }
+)
 @EnableFeignClients(basePackages = "com.michael.clients")
 public class CustomerApp {
     public static void main(String[] args) {

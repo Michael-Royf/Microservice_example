@@ -1,18 +1,17 @@
 
 zipkin - http://localhost:9411/
-pgadmin-  http://localhost:5050
+pgadmin- http://localhost:5050
+rabbitMQ- http://localhost:15672/
 
 
 
 https://mohosinmiah1610.medium.com/how-to-implement-zipkin-in-spring-boot-3-683e9d61a94c
-
 https://spring.io/projects/spring-cloud-sleuth
 https://github.com/micrometer-metrics/tracing/wiki/Spring-Cloud-Sleuth-3.1-Migration-Guide
 
 
 zipkin
 https://zipkin.io/
-
 
 for zipkin dependencies
  <dependency>
